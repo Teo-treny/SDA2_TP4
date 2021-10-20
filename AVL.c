@@ -52,4 +52,27 @@ int hauteur(noeudAVL_t * a) {
  * 2EME PARTIE                  *
  ----------------------------- */
 
- 
+/* On a deux rotations :
+    - Rotation droite
+    - Rotation gauche
+*/
+
+noeudAVL_t * rotationGauche(noeudAVL_t * a) {
+    noeudAVL_t * b = DROITE(a);
+    DROITE(a) = DROITE(b);
+    DROITE(b) = a;
+    BAL(a) = BAL(a) + 1 + MAX(0, -BAL(b));
+    BAL(b) += 1 + MAX(0, BAL(a));
+    a = b;
+    return b;
+}
+
+noeudAVL_t * rotationDroite(noeudAVL_t * a) {
+    noeudAVL_t * b = GAUCHE(a);
+    GAUCHE(a) = DROITE(b);
+    DROITE(b) = a;
+    BAL(a) = BAL(a) + 1 + MAX(0, -BAL(b));
+    BAL(b) += 1 + MAX(0, BAL(a));
+    a = b;
+    return b;
+}

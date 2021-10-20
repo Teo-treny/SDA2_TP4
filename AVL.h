@@ -9,6 +9,7 @@ struct noeudAVL {
     elt_t elt;
     struct noeudAVL * gauche;
     struct noeudAVL * droite;
+    int bal;
 };
 
 void afficherOrdonne(noeudAVL_t * a);
@@ -25,10 +26,15 @@ noeudAVL_t * inserer1Elt(noeudAVL_t * a);
 
 noeudAVL_t * supprimer1Elt(noeudAVL_t * a);
 
+noeudAVL_t * rotationGauche(noeudAVL_t * a);
+
+noeudAVL_t * rotationDroite(noeudAVL_t * a);
+
 #define	MAX(a,b)	(((a) >= (b)) ? (a) : (b))
 #define VIDE(a) ((a) == NULL)
 #define PASVIDE(a) ((a) != NULL)
 #define ELT(a) ((a)->elt)
+#define BAL(a) ((a)->bal)
 #define GAUCHE(a) ((a)->gauche)
 #define DROITE(a) ((a)->droite)
 #define ESTFEUILLE(a) ((a)->droite == NULL && (a)->gauche == NULL)
