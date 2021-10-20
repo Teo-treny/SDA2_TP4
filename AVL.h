@@ -30,6 +30,8 @@ noeudAVL_t * rotationGauche(noeudAVL_t * a);
 
 noeudAVL_t * rotationDroite(noeudAVL_t * a);
 
+noeudAVL_t * equilibrer (noeudAVL_t * a);
+
 #define	MAX(a,b)	(((a) >= (b)) ? (a) : (b))
 #define VIDE(a) ((a) == NULL)
 #define PASVIDE(a) ((a) != NULL)

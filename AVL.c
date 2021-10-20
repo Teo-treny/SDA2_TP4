@@ -52,7 +52,8 @@ int hauteur(noeudAVL_t * a) {
  * 2EME PARTIE                  *
  ----------------------------- */
 
-/* On a deux rotations :
+/* 
+On a deux rotations :
     - Rotation droite
     - Rotation gauche
 */
@@ -76,3 +77,32 @@ noeudAVL_t * rotationDroite(noeudAVL_t * a) {
     a = b;
     return b;
 }
+
+/*
+On est en déséquilibre quand BAL(a) = -2 ou 2.
+Ce qui veut dire que la différence de hauteur
+entre l'arbre de gauche, et l'arbre droit vaut 2 ou -2.
+*/
+
+noeudAVL_t * equilibrer(noeudAVL_t * a) {
+    // déséquilibre à droite
+    if(BAL(a) == -2) {
+        // cas d'une double rotation
+        if(BAL(DROITE(a)) == 1) {
+            DROITE(a) = rotationDroite(DROITE(a));
+        }
+        // rotation effectuée peu importe le cas
+        a = rotationGauche(a);
+    }
+    // déséquilibre à gauche
+    if(BAL(a) == 2) {
+        // cas d'une double rotation
+        if(BAL(GAUCHE(a)) == 1) {
+            GAUCHE(a) = rotationGauche(GAUCHE(a));
+        }
+        // rotation effectuée peu importe le cas
+        a = rotationDroite(a);
+    }
+    return a;
+}
+
