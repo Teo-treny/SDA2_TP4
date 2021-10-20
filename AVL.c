@@ -108,3 +108,32 @@ noeudAVL_t * equilibrer(noeudAVL_t * a) {
     return a;
 }
 
+noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a) {
+    if VIDE(a) {
+        #ifdef DEBUG
+            printf("\033[0;31m");
+            printf("Le noeud actuel est vide !\n");
+            printf("\033[0m");
+        #endif
+        return creer1Noeud(e, NULL, NULL);
+    }
+    else if (e < ELT(a)) {
+        #ifdef DEBUG
+            printf("\033[0;31m");
+            printf("On descend a gauche !\n");
+            printf("\033[0m");
+        #endif
+        GAUCHE(a) = insererABR(e, GAUCHE(a));
+    }
+    else {
+        #ifdef DEBUG
+            printf("\033[0;31m");
+            printf("On descend a droite !\n");
+            printf("\033[0m");
+        #endif
+        DROITE(a) = insererABR(e, DROITE(a));
+    }
+    equilibrer(a);
+    return a;
+}
+
