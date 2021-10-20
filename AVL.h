@@ -15,7 +15,7 @@ void afficherOrdonne(noeudAVL_t * a);
 
 void afficherInverse(noeudAVL_t * a);
 
-int estMembre(noeudAVL_t * a);
+int estMembre(noeudAVL_t * a, elt_t e);
 
 int nbElts(noeudAVL_t * a);
 
@@ -24,5 +24,14 @@ int hauteur(noeudAVL_t * a);
 noeudAVL_t * inserer1Elt(noeudAVL_t * a);
 
 noeudAVL_t * supprimer1Elt(noeudAVL_t * a);
+
+#define	MAX(a,b)	(((a) >= (b)) ? (a) : (b))
+#define VIDE(a) ((a) == NULL)
+#define PASVIDE(a) ((a) != NULL)
+#define ELT(a) ((a)->elt)
+#define GAUCHE(a) ((a)->gauche)
+#define DROITE(a) ((a)->droite)
+#define ESTFEUILLE(a) ((a)->droite == NULL && (a)->gauche == NULL)
+#define A_UN_ENFANT(a) ((a)->droite != NULL ^ (a)->gauche != NULL)
 
 #endif
