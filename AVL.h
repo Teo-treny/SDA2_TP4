@@ -1,5 +1,12 @@
+#include <stdio.h>
+
 #ifndef _AVL_H_
 #define _AVL_H_
+
+#define	DOSSIER_DOT	"./Dot/"
+#define	DOSSIER_PNG	"./Png/"
+#define	DOT_CMD		"dot"
+
 
 typedef int elt_t;
 
@@ -22,18 +29,21 @@ int nbElts(noeudAVL_t * a);
 
 int hauteur(noeudAVL_t * a);
 
-noeudAVL_t * inserer1Elt(noeudAVL_t * a);
-
-noeudAVL_t * supprimer1Elt(noeudAVL_t * a);
-
 noeudAVL_t * rotationGauche(noeudAVL_t * a);
 
 noeudAVL_t * rotationDroite(noeudAVL_t * a);
 
 noeudAVL_t * equilibrer (noeudAVL_t * a);
 
+noeudAVL_t * creer1Noeud(elt_t e, noeudAVL_t * g, noeudAVL_t * d);
+
 noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a);
 
+noeudAVL_t * supprimerElt(elt_t e, noeudAVL_t * a);
+
+void creerDotAVL(const noeudAVL_t * arbre, const char *basename);
+
+void genererDotPng(const noeudAVL_t * a, FILE *fp);
 
 #define	MAX(a,b)	(((a) >= (b)) ? (a) : (b))
 #define VIDE(a) ((a) == NULL)

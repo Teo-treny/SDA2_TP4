@@ -1,5 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+
 #include "AVL.h"
 
 // Protos fonctions locales
@@ -32,8 +35,8 @@ void afficherInverse(noeudAVL_t * a) {
 int estMembre(noeudAVL_t * a, elt_t e) {
     if VIDE(a) return 0;
     if (ELT(a) == e) return 1;
-    if (e < ELT(a)) return estDansABR(e, GAUCHE(a));
-    return estDansABR(e, DROITE(a));
+    if (e < ELT(a)) return estMembre(GAUCHE(a), e);
+    return estMembre(DROITE(a), e);
 }
 
 int nbElts(noeudAVL_t * a) {
@@ -60,10 +63,10 @@ On a deux rotations :
 
 noeudAVL_t * rotationGauche(noeudAVL_t * a) {
     noeudAVL_t * b = DROITE(a);
-    DROITE(a) = DROITE(b);
-    DROITE(b) = a;
-    BAL(a) = BAL(a) + 1 + MAX(0, -BAL(b));
-    BAL(b) += 1 + MAX(0, BAL(a));
+    DROITE(a) = GAUCHE(b);
+    GAUCHE(b) = a;
+    BAL(a) = hauteur(DROITE(a)) - hauteur(GAUCHE(a));
+    BAL(b) = hauteur(DROITE(b)) - hauteur(GAUCHE(b));
     a = b;
     return b;
 }
@@ -72,8 +75,8 @@ noeudAVL_t * rotationDroite(noeudAVL_t * a) {
     noeudAVL_t * b = GAUCHE(a);
     GAUCHE(a) = DROITE(b);
     DROITE(b) = a;
-    BAL(a) = BAL(a) + 1 + MAX(0, -BAL(b));
-    BAL(b) += 1 + MAX(0, BAL(a));
+    BAL(a) = hauteur(DROITE(a)) - hauteur(GAUCHE(a));
+    BAL(b) = hauteur(DROITE(b)) - hauteur(GAUCHE(b));
     a = b;
     return b;
 }
@@ -88,27 +91,77 @@ Si il vaut 2, alors on penche à droite, sinon on penche à gauche.
 noeudAVL_t * equilibrer(noeudAVL_t * a) {
     // déséquilibre à gauche
     if(BAL(a) == -2) {
-        
+        #ifdef DEBUG
+            printf("\033[0;31m");
+            printf("Desequilibre a gauche !\n");
+            printf("\033[0m");
+        #endif
         // cas d'une double rotation
         if(BAL(GAUCHE(a)) == 1) {
+            #ifdef DEBUG
+                printf("\033[0;31m");
+                printf("Rotation gauche sur enfant gauche !\n");
+                printf("\033[0m");
+            #endif
+            // creerDotAVL(a, "AVL_AV_rotG");
             GAUCHE(a) = rotationGauche(GAUCHE(a));
+            // creerDotAVL(a, "AVL_AP_rotG");
         }
         // rotation effectuée peu importe le cas
+        #ifdef DEBUG
+            printf("\033[0;31m");
+            printf("Rotation droite !\n");
+            printf("\033[0m");
+        #endif
+        // creerDotAVL(a, "AVL_AV_rotD");
         a = rotationDroite(a);
+        // creerDotAVL(a, "AVL_AP_rotD");
     }
     // déséquilibre à droite
     if(BAL(a) == 2) {
+        #ifdef DEBUG
+            printf("\033[0;31m");
+            printf("Desequilibre a droite !\n");
+            printf("\033[0m");
+        #endif
         // cas d'une double rotation
-        if(BAL(DROITE(a)) == 1) {
+        if(BAL(DROITE(a)) == -1) {
+            #ifdef DEBUG
+                printf("\033[0;31m");
+                printf("Rotation droite sur enfant droite !\n");
+                printf("\033[0m");
+            #endif
+            // creerDotAVL(a, "AVL_AV_rotD");
             DROITE(a) = rotationDroite(DROITE(a));
+            // creerDotAVL(a, "AVL_AP_rotD");
         }
         // rotation effectuée peu importe le cas
+        #ifdef DEBUG
+            printf("\033[0;31m");
+            printf("Rotation gauche !\n");
+            printf("\033[0m");
+        #endif
+        // creerDotAVL(a, "AVL_AV_rotG");
         a = rotationGauche(a);
+        // creerDotAVL(a, "AVL_AP_rotG");
     }
     return a;
 }
 
+noeudAVL_t * creer1Noeud(elt_t e, noeudAVL_t * g, noeudAVL_t * d) {
+    noeudAVL_t * p;
+    p = (noeudAVL_t *)malloc(sizeof(noeudAVL_t));
+    if (p != NULL) {
+        p->elt = e;
+        p->gauche = g;
+        p->droite = d;
+        p->bal = 0;
+    }
+    return p;
+}
+
 noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a) {
+    if (estMembre(a, e)) return a;
     if VIDE(a) {
         #ifdef DEBUG
             printf("\033[0;31m");
@@ -123,7 +176,7 @@ noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a) {
             printf("On descend a gauche !\n");
             printf("\033[0m");
         #endif
-        GAUCHE(a) = insererABR(e, GAUCHE(a));
+        GAUCHE(a) = insererAVL(e, GAUCHE(a));
     }
     else {
         #ifdef DEBUG
@@ -131,9 +184,114 @@ noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a) {
             printf("On descend a droite !\n");
             printf("\033[0m");
         #endif
-        DROITE(a) = insererABR(e, DROITE(a));
+        DROITE(a) = insererAVL(e, DROITE(a));
     }
-    equilibrer(a);
+    BAL(a) = hauteur(DROITE(a)) - hauteur(GAUCHE(a));
+    a = equilibrer(a);
     return a;
 }
 
+noeudAVL_t * supprimerElt(elt_t e, noeudAVL_t * a) {
+    return NULL;
+}
+
+void genererDotPng(const noeudAVL_t * a, FILE *fp) {
+    if PASVIDE(a) {
+
+        fprintf(fp, "%d [label = \"{<c> %d | {", ELT(a), ELT(a));
+        
+        // affichage gauche
+        if (PASVIDE(GAUCHE(a)))
+            fprintf(fp, "<g> | ");
+        else
+            fprintf(fp, "<g> NULL | ");
+
+        // affichage droite
+        if (PASVIDE(DROITE(a)))
+            fprintf(fp, "<d>");
+        else
+            fprintf(fp, "<d> NULL");
+
+        fprintf(fp,"} | { <c> bal = %d}}\"];\n",a->bal);
+
+        // on ne peut pas gérer l'affichage et l'exploration en meme temps
+        // sinon on passe au noeud suivant sans avoir fini d'écrire le premier
+
+        if (PASVIDE(GAUCHE(a))) {
+            fprintf(fp, "%d:g -> %d;\n", ELT(a), ELT(GAUCHE(a)));
+            genererDotPng(GAUCHE(a), fp);
+        }
+        if (PASVIDE(DROITE(a))) {
+            fprintf(fp, "%d:d -> %d;\n", ELT(a), ELT(DROITE(a)));
+            genererDotPng(DROITE(a), fp);
+        }        
+    }
+}
+
+void creerDotAVL(const noeudAVL_t * arbre, const char *basename) {
+    static char oldBasename[FILENAME_MAX + 1] = "";
+    char fnameDot [FILENAME_MAX + 1];
+    char fnamePng [FILENAME_MAX + 1];
+    static unsigned int noVersion = 0;
+    char	cmdLine [2 * FILENAME_MAX + 20];
+    FILE *fp;
+    
+    /*
+     *	Au premier appel, création (si nécessaire) des répertoires
+     *	où seront rangés les fichiers .dot et .png générés par cette
+     *	fonction
+     */
+    if (oldBasename[0] == '\0')
+    {
+        mkdir(DOSSIER_PNG,	S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        mkdir(DOSSIER_DOT,	S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+    }
+    /*
+     *	S'il y a changement de nom de base alors recommencer
+     *	à zéro, la numérotation des fichiers
+     */
+    if (strcmp(oldBasename, basename) != 0)
+    {
+        noVersion = 0;
+        strcpy(oldBasename, basename);
+    }
+    sprintf(fnameDot, "%s%s_v%02u.dot", DOSSIER_DOT, basename, noVersion);
+    sprintf(fnamePng, "%s%s_v%02u.png", DOSSIER_PNG, basename, noVersion);
+    if ( (fp = fopen(fnameDot, "w")) == NULL)
+    {
+        fprintf(stderr, "Impossible de creer le fichier \"%s\"\n", fnameDot);
+        exit(EXIT_FAILURE);
+    }
+    
+    noVersion ++;
+    fprintf(fp, "digraph %s {\n", basename);
+    fprintf(fp,
+            "\tnode [\n"
+            "\t\tfontname  = \"Arial bold\" \n"
+            "\t\tfontsize  = \"14\"\n"
+            "\t\tfontcolor = \"red\"\n"
+            "\t\tstyle     = \"rounded, filled\"\n"
+            "\t\tshape     = \"record\"\n"
+            "\t\tfillcolor = \"grey90\"\n"
+            "\t\tcolor     = \"blue\"\n"
+            "\t\twidth     = \"2\"\n"
+            "\t]\n"
+            "\n"
+            "\tedge [\n"
+            "\t\tcolor     = \"blue\"\n"
+            "\t]\n\n"
+            );
+    
+    if (arbre == NULL)
+        fprintf(fp, "\n");
+    else
+        genererDotPng(arbre, fp);
+    
+    fprintf(fp, "}\n");	
+    fclose(fp);
+    
+    sprintf(cmdLine, "%s -Tpng  %s -o %s", DOT_CMD, fnameDot, fnamePng);
+    system(cmdLine);
+    
+    printf("Creation de '%s' et '%s' ... effectuee\n", fnameDot, fnamePng);
+}
