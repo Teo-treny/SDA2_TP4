@@ -9,6 +9,10 @@ all : exe debug
 clean :
 	rm -rf *.e *.o *.tar.gz Dot/*.dot Png/*.png
 
+super-clean :
+	make clean
+	rm -rf html latex doxygen-awesome-css Doxyfile
+
 exe : main.e
 
 debug : main_DEBUG.e
@@ -18,7 +22,7 @@ archive :
 	tar -czvf $a *
 
 doxyfile :
-	rm -rf html latex doxygen-awesome-css Doxyfile
+	make super-clean
 	doxycss.sh
 
 # AVL

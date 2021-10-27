@@ -29,7 +29,6 @@ struct noeudAVL {
 };
 
 /**
- * @fn          afficherOrdonne
  * @brief       Affichage ordonne d'un arbre
  * @author      Téo Trény
  * @param a     Arbre
@@ -37,7 +36,6 @@ struct noeudAVL {
 void afficherOrdonne(noeudAVL_t * a);
 
 /**
- * @fn          afficherInverse
  * @brief       Affichage inverse d'un arbre
  * @author      Téo Trény
  * @param a     Arbre
@@ -45,7 +43,6 @@ void afficherOrdonne(noeudAVL_t * a);
 void afficherInverse(noeudAVL_t * a);
 
 /**
- * @fn          estMembre
  * @brief       Indique si un element est dans l'arbre
  * @author      Téo Trény
  * @param a     Arbre
@@ -55,7 +52,6 @@ void afficherInverse(noeudAVL_t * a);
 int estMembre(noeudAVL_t * a, elt_t e);
 
 /**
- * @fn          nbElts
  * @brief       Renvoie le nombre de noeuds
  * @author      Téo Trény
  * @param a     Arbre
@@ -64,7 +60,6 @@ int estMembre(noeudAVL_t * a, elt_t e);
 int nbElts(noeudAVL_t * a);
 
 /**
- * @fn          hauteur
  * @brief       Renvoie la hauteur d'un arbre
  * @author      Téo Trény
  * @param a     Arbre
@@ -73,65 +68,58 @@ int nbElts(noeudAVL_t * a);
 int hauteur(noeudAVL_t * a);
 
 /**
- * @fn                      rotationGauche
  * @brief                   Execute une rotation gauche sur un arbre
  * @author                  Téo Trény
  * @param a                 Arbre
- * @return noeudAVL_t*      Arbre apres rotation
+ * @return noeudAVL_t *      Arbre apres rotation
  */
 noeudAVL_t * rotationGauche(noeudAVL_t * a);
 
 /**
- * @fn                      rotationDroite
  * @brief                   Execute une rotation droite sur un arbre
  * @author                  Téo Trény
  * @param a                 Arbre
- * @return noeudAVL_t*      Arbre apres rotation
+ * @return noeudAVL_t *      Arbre apres rotation
  */
 noeudAVL_t * rotationDroite(noeudAVL_t * a);
 
 /**
- * @fn                      equilibrer
  * @brief                   Fonction qui permet d'equilibrer un arbre en faisant des rotations
  * @author                  Téo Trény
  * @param a                 Arbre
- * @return noeudAVL_t*      Arbre equilibre
+ * @return noeudAVL_t *      Arbre equilibre
  */
 noeudAVL_t * equilibrer (noeudAVL_t * a);
 
 /**
- * @fn                      creer1Noeud
  * @brief                   Permet d'ajouter un noeud à un arbre
  * @author                  Téo Trény
  * @param e                 Element du noeud
  * @param g                 Adresse du noeud gauche
  * @param d                 Adresse du noeud droit
- * @return noeudAVL_t*      Nouveau noeud
+ * @return noeudAVL_t *      Nouveau noeud
  */
 noeudAVL_t * creer1Noeud(elt_t e, noeudAVL_t * g, noeudAVL_t * d);
 
 /**
- * @fn                      insererAVL
  * @brief                   Permet d'inserer une valeur dans un arbre en respectant l'equilibre
  * @author                  Téo Trény    
  * @param e                 Element a ajouter
  * @param a                 Arbre auquel il faut ajouter l'element
- * @return noeudAVL_t*      Arbre modifie
+ * @return noeudAVL_t *      Arbre modifie
  */
 noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a);
 
 /**
- * @fn                      supprimerElt
  * @brief                   Permet de supprimer un element dans l'arbre en respectant l'equilibre (NE FONCTIONNE PAS)
  * @author                  Téo Trény / Urban Prevost
  * @param e                 Element a supprimer
  * @param a                 Arbre auquel il faut supprimer l'element
- * @return noeudAVL_t*      Arbre modifie
+ * @return noeudAVL_t *      Arbre modifie
  */
 noeudAVL_t * supprimerElt(elt_t e, noeudAVL_t * a);
 
 /**
- * @fn                      creerDotAVL
  * @brief                   Permet de generer un .dot pour en suite generer un .png
  * @author                  Samir El Khattabi
  * @param arbre             Arbre
@@ -140,7 +128,6 @@ noeudAVL_t * supprimerElt(elt_t e, noeudAVL_t * a);
 void creerDotAVL(const noeudAVL_t * arbre, const char *basename);
 
 /**
- * @fn                      genererDotPng
  * @brief                   Permet de generer un .png representant la structure de l'arbre
  * @author                  Téo Trény
  * @param a                 Arbre à afficher

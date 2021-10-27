@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# Doxygen + Web
+*.js
+*.css
+*.html
+*.map
+*.md5
+*.svg
+*.png
+*.pdf
+*.tex
+*.sty
+Doxyfile
