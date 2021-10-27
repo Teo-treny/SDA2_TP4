@@ -1,3 +1,12 @@
+/**
+ * @file AVL.c
+ * @author TRENY Téo (treny.teojgh@gmail.com // teo.treny@ig2i.centralelille.fr)
+ * @brief Fichier contenant les fonctions permettant de gerer un arbre equilibre
+ * @version 1.0
+ * @date 2021-10-27
+ * 
+ * 
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,6 +25,12 @@ void afficherElt(elt_t e) {
  * 1ERE PARTIE                  *
  ----------------------------- */
 
+/**
+ * @fn          afficherOrdonne
+ * @brief       Affichage ordonne d'un arbre
+ * @author      Téo Trény
+ * @param a     Arbre
+ */
 void afficherOrdonne(noeudAVL_t * a) {
     if PASVIDE(a) {
         afficherOrdonne(GAUCHE(a));
@@ -24,6 +39,12 @@ void afficherOrdonne(noeudAVL_t * a) {
     }
 }
 
+/**
+ * @fn          afficherInverse
+ * @brief       Affichage inverse d'un arbre
+ * @author      Téo Trény
+ * @param a     Arbre
+ */
 void afficherInverse(noeudAVL_t * a) {
     if PASVIDE(a) {
         afficherOrdonne(DROITE(a));
@@ -32,6 +53,14 @@ void afficherInverse(noeudAVL_t * a) {
     }
 }
 
+/**
+ * @fn          estMembre
+ * @brief       Indique si un element est dans l'arbre
+ * @author      Téo Trény
+ * @param a     Arbre
+ * @param e     Element a chercher
+ * @return int  1 : element trouve, 0 : element non trouve
+ */
 int estMembre(noeudAVL_t * a, elt_t e) {
     if VIDE(a) return 0;
     if (ELT(a) == e) return 1;
@@ -39,11 +68,25 @@ int estMembre(noeudAVL_t * a, elt_t e) {
     return estMembre(DROITE(a), e);
 }
 
+/**
+ * @fn          nbElts
+ * @brief       Renvoie le nombre de noeuds
+ * @author      Téo Trény
+ * @param a     Arbre
+ * @return int  Nombre de noeuds
+ */
 int nbElts(noeudAVL_t * a) {
     if VIDE(a) return 0;
     return 1 + nbElts(GAUCHE(a)) + nbElts(DROITE(a));
 }
 
+/**
+ * @fn          hauteur
+ * @brief       Renvoie la hauteur d'un arbre
+ * @author      Téo Trény
+ * @param a     Arbre
+ * @return int  Hauteur de l'arbre
+ */
 int hauteur(noeudAVL_t * a) {
     if VIDE(a) return -1;
     int g = hauteur(GAUCHE(a));
@@ -61,6 +104,13 @@ On a deux rotations :
     - Rotation gauche
 */
 
+/**
+ * @fn                      rotationGauche
+ * @brief                   Execute une rotation gauche sur un arbre
+ * @author                  Téo Trény
+ * @param a                 Arbre
+ * @return noeudAVL_t*      Arbre apres rotation
+ */
 noeudAVL_t * rotationGauche(noeudAVL_t * a) {
     noeudAVL_t * b = DROITE(a);
     DROITE(a) = GAUCHE(b);
@@ -71,6 +121,13 @@ noeudAVL_t * rotationGauche(noeudAVL_t * a) {
     return b;
 }
 
+/**
+ * @fn                      rotationDroite
+ * @brief                   Execute une rotation droite sur un arbre
+ * @author                  Téo Trény
+ * @param a                 Arbre
+ * @return noeudAVL_t*      Arbre apres rotation
+ */
 noeudAVL_t * rotationDroite(noeudAVL_t * a) {
     noeudAVL_t * b = GAUCHE(a);
     GAUCHE(a) = DROITE(b);
@@ -88,6 +145,13 @@ entre l'arbre de droite, et l'arbre gauche vaut 2 ou -2.
 Si il vaut 2, alors on penche à droite, sinon on penche à gauche.
 */
 
+/**
+ * @fn                      equilibrer
+ * @brief                   Fonction qui permet d'equilibrer un arbre en faisant des rotations
+ * @author                  Téo Trény
+ * @param a                 Arbre
+ * @return noeudAVL_t*      Arbre equilibre
+ */
 noeudAVL_t * equilibrer(noeudAVL_t * a) {
     // déséquilibre à gauche
     if(BAL(a) == -2) {
@@ -148,6 +212,15 @@ noeudAVL_t * equilibrer(noeudAVL_t * a) {
     return a;
 }
 
+/**
+ * @fn                      creer1Noeud
+ * @brief                   Permet d'ajouter un noeud à un arbre
+ * @author                  Téo Trény
+ * @param e                 Element du noeud
+ * @param g                 Adresse du noeud gauche
+ * @param d                 Adresse du noeud droit
+ * @return noeudAVL_t*      Nouveau noeud
+ */
 noeudAVL_t * creer1Noeud(elt_t e, noeudAVL_t * g, noeudAVL_t * d) {
     noeudAVL_t * p;
     p = (noeudAVL_t *)malloc(sizeof(noeudAVL_t));
@@ -160,6 +233,14 @@ noeudAVL_t * creer1Noeud(elt_t e, noeudAVL_t * g, noeudAVL_t * d) {
     return p;
 }
 
+/**
+ * @fn                      insererAVL
+ * @brief                   Permet d'inserer une valeur dans un arbre en respectant l'equilibre
+ * @author                  Téo Trény    
+ * @param e                 Element a ajouter
+ * @param a                 Arbre auquel il faut ajouter l'element
+ * @return noeudAVL_t*      Arbre modifie
+ */
 noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a) {
     if (estMembre(a, e)) return a;
     if VIDE(a) {
@@ -191,10 +272,46 @@ noeudAVL_t * insererAVL(elt_t e, noeudAVL_t * a) {
     return a;
 }
 
+/**
+ * @fn                      supprimerElt
+ * @brief                   Permet de supprimer un element dans l'arbre en respectant l'equilibre (NE FONCTIONNE PAS)
+ * @author                  Téo Trény / Urban Prevost
+ * @param e                 Element a supprimer
+ * @param a                 Arbre auquel il faut supprimer l'element
+ * @return noeudAVL_t*      Arbre modifie
+ */
 noeudAVL_t * supprimerElt(elt_t e, noeudAVL_t * a) {
-    return NULL;
+    if (VIDE(a)) return a;
+    if (estMembre(a, e)) return a;
+    noeudAVL_t * aux;
+    noeudAVL_t * temp;
+
+    if(ELT(a) == e){
+        temp = a;
+        if(PASVIDE(GAUCHE(a))) {
+            aux = GAUCHE(a);
+            while(PASVIDE(DROITE(aux))) aux = DROITE(aux);
+            DROITE(aux) = DROITE(a);
+            a = GAUCHE(a);
+        }
+        else a = DROITE(a);
+        free(temp);
+    }
+    else {
+        if (e < ELT(a)) GAUCHE(a) = supprimerElt(e , GAUCHE(a));
+        else DROITE(a) = supprimerElt(e, DROITE(a));
+    }
+    a = equilibrer(a);
+    return a;
 }
 
+/**
+ * @fn                      creerDotAVL
+ * @brief                   Permet de generer un .dot pour en suite generer un .png
+ * @author                  Samir El Khattabi
+ * @param arbre             Arbre
+ * @param basename          Nom du fichier
+ */
 void genererDotPng(const noeudAVL_t * a, FILE *fp) {
     if PASVIDE(a) {
 
@@ -228,6 +345,13 @@ void genererDotPng(const noeudAVL_t * a, FILE *fp) {
     }
 }
 
+/**
+ * @fn                      genererDotPng
+ * @brief                   Permet de generer un .png representant la structure de l'arbre
+ * @author                  Téo Trény
+ * @param a                 Arbre à afficher
+ * @param fp                Pointeur fichier
+ */
 void creerDotAVL(const noeudAVL_t * arbre, const char *basename) {
     static char oldBasename[FILENAME_MAX + 1] = "";
     char fnameDot [FILENAME_MAX + 1];

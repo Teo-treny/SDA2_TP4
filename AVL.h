@@ -1,3 +1,12 @@
+/**
+ * @file AVL.h
+ * @author TRENY Téo (treny.teojgh@gmail.com // teo.treny@ig2i.centralelille.fr)
+ * @brief Fichier header contenant les prototypes des fonctions de AVL.c
+ * @version 1.0
+ * @date 2021-10-27
+ * 
+ * 
+ */
 #include <stdio.h>
 
 #ifndef _AVL_H_
@@ -29,6 +38,7 @@ int nbElts(noeudAVL_t * a);
 
 int hauteur(noeudAVL_t * a);
 
+
 noeudAVL_t * rotationGauche(noeudAVL_t * a);
 
 noeudAVL_t * rotationDroite(noeudAVL_t * a);
@@ -44,6 +54,8 @@ noeudAVL_t * supprimerElt(elt_t e, noeudAVL_t * a);
 void creerDotAVL(const noeudAVL_t * arbre, const char *basename);
 
 void genererDotPng(const noeudAVL_t * a, FILE *fp);
+
+// MACROS
 
 #define	MAX(a,b)	(((a) >= (b)) ? (a) : (b))
 #define VIDE(a) ((a) == NULL)

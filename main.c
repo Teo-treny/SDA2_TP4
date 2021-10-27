@@ -1,3 +1,12 @@
+/**
+ * @file main.c
+ * @author TRENY Téo (treny.teojgh@gmail.com // teo.treny@ig2i.centralelille.fr)
+ * @brief Fichier main, utilisant un menu pour manipuler un arbre
+ * @version 1.0
+ * @date 2021-10-27
+ * 
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -61,7 +70,7 @@ int main(void) {
             break;
 
             case 8 :
-            
+                test = test_supprimerElt(test);
             break;
 
             case 9 :

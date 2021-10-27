@@ -1,3 +1,12 @@
+/**
+ * @file test_AVL.c
+ * @author TRENY Téo (treny.teojgh@gmail.com // teo.treny@ig2i.centralelille.fr)
+ * @brief Fichier contenant les fonctions permettant de tester un arbre equilibre
+ * @version 1.0
+ * @date 2021-10-27
+ * 
+ * 
+ */
 #include <stdlib.h>
 #include <time.h>
 
@@ -62,10 +71,11 @@ noeudAVL_t * test_insererXAVL(noeudAVL_t * a) {
     return a;
 }
 
-void test_supprimerElt(noeudAVL_t * a) {
+noeudAVL_t * test_supprimerElt(noeudAVL_t * a) {
     elt_t e;
     printf("Element a supprimer : ");
     fflush(stdout);
     scanf("%d", &e);
     a = supprimerElt(e, a);
+    return a;
 }
