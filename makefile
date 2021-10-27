@@ -7,8 +7,7 @@ a = SDA2_TP4_TRENY_TEO.tar.gz
 all : exe debug
 
 clean :
-	rm -rf *.e *.o *.tar.gz Dot/*.dot Png/*.png Doxyfile
-	rm -rf html latex doxygen-awesome-css
+	rm -rf *.e *.o *.tar.gz Dot/*.dot Png/*.png
 
 exe : main.e
 
@@ -19,6 +18,7 @@ archive :
 	tar -czvf $a *
 
 doxyfile :
+	rm -rf html latex doxygen-awesome-css Doxyfile
 	doxycss.sh
 
 # AVL

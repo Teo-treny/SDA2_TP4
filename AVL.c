@@ -21,10 +21,6 @@ void afficherElt(elt_t e) {
     printf("%d\t", e);
 }
 
-/* ------------------------------
- * 1ERE PARTIE                  *
- ----------------------------- */
-
 /**
  * @fn          afficherOrdonne
  * @brief       Affichage ordonne d'un arbre
@@ -93,16 +89,6 @@ int hauteur(noeudAVL_t * a) {
     int d = hauteur(DROITE(a));
     return 1 + MAX(g,d);
 }
-
-/* ------------------------------
- * 2EME PARTIE                  *
- ----------------------------- */
-
-/* 
-On a deux rotations :
-    - Rotation droite
-    - Rotation gauche
-*/
 
 /**
  * @fn                      rotationGauche
@@ -306,11 +292,11 @@ noeudAVL_t * supprimerElt(elt_t e, noeudAVL_t * a) {
 }
 
 /**
- * @fn                      creerDotAVL
- * @brief                   Permet de generer un .dot pour en suite generer un .png
- * @author                  Samir El Khattabi
- * @param arbre             Arbre
- * @param basename          Nom du fichier
+ * @fn                      genererDotPng
+ * @brief                   Permet de generer un .png representant la structure de l'arbre
+ * @author                  Téo Trény
+ * @param a                 Arbre à afficher
+ * @param fp                Pointeur fichier
  */
 void genererDotPng(const noeudAVL_t * a, FILE *fp) {
     if PASVIDE(a) {
@@ -346,11 +332,11 @@ void genererDotPng(const noeudAVL_t * a, FILE *fp) {
 }
 
 /**
- * @fn                      genererDotPng
- * @brief                   Permet de generer un .png representant la structure de l'arbre
- * @author                  Téo Trény
- * @param a                 Arbre à afficher
- * @param fp                Pointeur fichier
+ * @fn                      creerDotAVL
+ * @brief                   Permet de generer un .dot pour en suite generer un .png
+ * @author                  Samir El Khattabi
+ * @param arbre             Arbre
+ * @param basename          Nom du fichier
  */
 void creerDotAVL(const noeudAVL_t * arbre, const char *basename) {
     static char oldBasename[FILENAME_MAX + 1] = "";
